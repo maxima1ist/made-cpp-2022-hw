@@ -1,0 +1,15 @@
+name: hw01
+
+on:
+  push:
+    branches:
+      - hw01
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build and test hw01
+      run: |
+        ./hw01/build_image.sh
