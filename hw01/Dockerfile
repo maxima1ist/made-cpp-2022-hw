@@ -23,10 +23,10 @@ COPY . /hw01
 
 WORKDIR /hw01
 
-RUN ./run_linters.sh
+RUN ./scripts/run_linters.sh
 
-RUN ./build.sh
+RUN ./scripts/build.sh
 
-RUN ./run_tests.sh
+RUN ./scripts/run_tests.sh
 
-RUN ./generate_tests_cov_report.sh
+RUN ./scripts/generate_tests_cov_report.sh
