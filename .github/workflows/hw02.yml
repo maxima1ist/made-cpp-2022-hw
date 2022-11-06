@@ -1,0 +1,14 @@
+name: hw02
+
+on:
+  push:
+    branches:
+      - hw02
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build and test hw02
+      run: ./hw02/scripts/build_image.sh
