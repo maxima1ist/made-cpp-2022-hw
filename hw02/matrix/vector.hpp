@@ -5,31 +5,29 @@
 #include <stdexcept>
 #include <cmath>
 
-#define REAL_NUMBER_PRECISION 1e-6
-
 template <typename MatrixValueType, size_t m, size_t n>
 class Matrix;
 
-template <class ValueType, size_t n = 1>
+template <class Т, size_t n = 1>
 class Vector
 {
-    template <typename MatrixValueType, size_t matrix_m, size_t matrix_n>
+    template <typename MatrixValueType, size_t matrix_m, size_t m>
     friend class Matrix;
 
 public:
     Vector() {}
 
-    Vector(std::array<ValueType, n> values)
+    Vector(const std::array<Т, n> &values)
     {
         std::copy(values.begin(), values.end(), arr_.begin());
     }
 
-    Vector(const Vector<ValueType, n> &other)
+    Vector(const Vector<Т, n> &other)
     {
         std::copy(other.arr_.begin(), other.arr_.end(), arr_.begin());
     }
 
-    Vector<ValueType, n> &operator=(const Vector<ValueType, n> &other)
+    Vector<Т, n> &operator=(const Vector<Т, n> &other)
     {
         if (this == &other)
         {
@@ -45,13 +43,13 @@ public:
         return n;
     }
 
-    bool operator==(const Vector<ValueType, n> &other) const
+    bool operator==(const Vector<Т, n> &other) const
     {
         for (size_t i = 0; i < n; ++i)
         {
-            if constexpr (std::is_same_v<ValueType, float> || std::is_same_v<ValueType, double>)
+            if constexpr (std::is_same_v<Т, float> || std::is_same_v<Т, double>)
             {
-                if (std::abs(arr_[i] - other.arr_[i]) >= REAL_NUMBER_PRECISION)
+                if (std::abs(arr_[i] - other.arr_[i]) >= kRealNumberPrecision)
                 {
                     return false;
                 }
@@ -67,14 +65,14 @@ public:
         return true;
     }
 
-    bool operator!=(const Vector<ValueType, n> &other) const
+    bool operator!=(const Vector<Т, n> &other) const
     {
         return !(*this == other);
     }
 
-    const ValueType &operator[](size_t i) const
+    const Т &operator[](size_t i) const
     {
-        if (i > n)
+        if (i >= n)
         {
             throw std::runtime_error("out of the range");
         }
@@ -82,9 +80,9 @@ public:
         return arr_[i];
     }
 
-    ValueType &operator[](size_t i)
+    Т &operator[](size_t i)
     {
-        if (i > n)
+        if (i >= n)
         {
             throw std::runtime_error("out of the range");
         }
@@ -92,9 +90,9 @@ public:
         return arr_[i];
     }
 
-    Vector<ValueType, n> operator+(const ValueType &value) const
+    Vector<Т, n> operator+(const Т &value) const
     {
-        Vector<ValueType, n> res;
+        Vector<Т, n> res;
         for (size_t i = 0; i < n; ++i)
         {
             res.arr_[i] = arr_[i] + value;
@@ -102,9 +100,9 @@ public:
         return res;
     }
 
-    friend Vector<ValueType, n> operator+(const ValueType &value, const Vector<ValueType, n> &vector)
+    friend Vector<Т, n> operator+(const Т &value, const Vector<Т, n> &vector)
     {
-        Vector<ValueType, n> res;
+        Vector<Т, n> res;
         for (size_t i = 0; i < n; ++i)
         {
             res.arr_[i] = value + vector.arr_[i];
@@ -112,7 +110,7 @@ public:
         return res;
     }
 
-    Vector<ValueType, n> &operator+=(const ValueType &value)
+    Vector<Т, n> &operator+=(const Т &value)
     {
         for (size_t i = 0; i < n; ++i)
         {
@@ -121,9 +119,9 @@ public:
         return *this;
     }
 
-    Vector<ValueType, n> operator-(const ValueType &value) const
+    Vector<Т, n> operator-(const Т &value) const
     {
-        Vector<ValueType, n> res;
+        Vector<Т, n> res;
         for (size_t i = 0; i < n; ++i)
         {
             res.arr_[i] = arr_[i] - value;
@@ -131,9 +129,9 @@ public:
         return res;
     }
 
-    friend Vector<ValueType, n> operator-(const ValueType &value, const Vector<ValueType, n> &vector)
+    friend Vector<Т, n> operator-(const Т &value, const Vector<Т, n> &vector)
     {
-        Vector<ValueType, n> res;
+        Vector<Т, n> res;
         for (size_t i = 0; i < n; ++i)
         {
             res.arr_[i] = value - vector.arr_[i];
@@ -141,7 +139,7 @@ public:
         return res;
     }
 
-    Vector<ValueType, n> &operator-=(const ValueType &value)
+    Vector<Т, n> &operator-=(const Т &value)
     {
         for (size_t i = 0; i < n; ++i)
         {
@@ -150,9 +148,9 @@ public:
         return *this;
     }
 
-    Vector<ValueType, n> operator*(const ValueType &value) const
+    Vector<Т, n> operator*(const Т &value) const
     {
-        Vector<ValueType, n> res;
+        Vector<Т, n> res;
         for (size_t i = 0; i < n; ++i)
         {
             res.arr_[i] = arr_[i] * value;
@@ -160,9 +158,9 @@ public:
         return res;
     }
 
-    friend Vector<ValueType, n> operator*(const ValueType &value, const Vector<ValueType, n> &vector)
+    friend Vector<Т, n> operator*(const Т &value, const Vector<Т, n> &vector)
     {
-        Vector<ValueType, n> res;
+        Vector<Т, n> res;
         for (size_t i = 0; i < n; ++i)
         {
             res.arr_[i] = value * vector.arr_[i];
@@ -170,7 +168,7 @@ public:
         return res;
     }
 
-    Vector<ValueType, n> &operator*=(const ValueType &value)
+    Vector<Т, n> &operator*=(const Т &value)
     {
         for (size_t i = 0; i < n; ++i)
         {
@@ -179,9 +177,9 @@ public:
         return *this;
     }
 
-    Vector<ValueType, n> operator+(const Vector<ValueType, n> &other) const
+    Vector<Т, n> operator+(const Vector<Т, n> &other) const
     {
-        Vector<ValueType, n> res;
+        Vector<Т, n> res;
         for (size_t i = 0; i < n; ++i)
         {
             res.arr_[i] = arr_[i] + other.arr_[i];
@@ -189,7 +187,7 @@ public:
         return res;
     }
 
-    Vector<ValueType, n> &operator+=(const Vector<ValueType, n> &other)
+    Vector<Т, n> &operator+=(const Vector<Т, n> &other)
     {
         for (size_t i = 0; i < n; ++i)
         {
@@ -198,9 +196,9 @@ public:
         return *this;
     }
 
-    Vector<ValueType, n> operator-(const Vector<ValueType, n> &other) const
+    Vector<Т, n> operator-(const Vector<Т, n> &other) const
     {
-        Vector<ValueType, n> res;
+        Vector<Т, n> res;
         for (size_t i = 0; i < n; ++i)
         {
             res.arr_[i] = arr_[i] - other.arr_[i];
@@ -208,7 +206,7 @@ public:
         return res;
     }
 
-    Vector<ValueType, n> &operator-=(const Vector<ValueType, n> &other)
+    Vector<Т, n> &operator-=(const Vector<Т, n> &other)
     {
         for (size_t i = 0; i < n; ++i)
         {
@@ -217,9 +215,9 @@ public:
         return *this;
     }
 
-    Vector<ValueType, n> operator*(const Vector<ValueType, n> &other) const
+    Vector<Т, n> operator*(const Vector<Т, n> &other) const
     {
-        Vector<ValueType, n> res;
+        Vector<Т, n> res;
         for (size_t i = 0; i < n; ++i)
         {
             res.arr_[i] = arr_[i] * other.arr_[i];
@@ -227,7 +225,7 @@ public:
         return res;
     }
 
-    Vector<ValueType, n> &operator*=(const Vector<ValueType, n> &other)
+    Vector<Т, n> &operator*=(const Vector<Т, n> &other)
     {
         for (size_t i = 0; i < n; ++i)
         {
@@ -236,9 +234,9 @@ public:
         return *this;
     }
 
-    ValueType dot(const Vector<ValueType, n> &other) const
+    Т dot(const Vector<Т, n> &other) const
     {
-        ValueType res = 0;
+        Т res = 0;
         for (size_t i = 0; i < n; ++i)
         {
             res += arr_[i] * other.arr_[i];
@@ -246,11 +244,11 @@ public:
         return res;
     }
 
-    template <size_t matrix_n>
-    Vector<ValueType, matrix_n> dot(const Matrix<ValueType, n, matrix_n> &matrix) const
+    template <size_t m>
+    Vector<Т, m> dot(const Matrix<Т, n, m> &matrix) const
     {
-        Vector<ValueType, matrix_n> res;
-        for (size_t i = 0; i < matrix_n; ++i)
+        Vector<Т, m> res;
+        for (size_t i = 0; i < m; ++i)
         {
             res[i] = 0;
             for (size_t j = 0; j < n; ++j)
@@ -262,7 +260,7 @@ public:
     }
 
     template <ssize_t l = 0, ssize_t r = n, ssize_t step = 1, ssize_t slice_size = (r - l) / step>
-    Vector<ValueType, slice_size> slice()
+    Vector<Т, slice_size> slice()
     {
         static_assert(l <= r);
         static_assert(r <= n);
@@ -273,7 +271,7 @@ public:
             return {};
         }
 
-        std::array<ValueType, slice_size> tmp;
+        std::array<Т, slice_size> tmp;
         ssize_t i = 0;
         for (ssize_t j = l; j < r; j += step, ++i)
         {
@@ -283,5 +281,7 @@ public:
     }
 
 private:
-    std::array<ValueType, n> arr_;
+    std::array<Т, n> arr_;
+
+    static constexpr double kRealNumberPrecision = 1e-6;
 };
