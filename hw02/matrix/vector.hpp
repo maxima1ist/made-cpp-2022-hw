@@ -110,6 +110,25 @@ public:
         return res;
     }
 
+    Vector<Т, n> operator+(const Vector<Т, n> &other) const
+    {
+        Vector<Т, n> res;
+        for (size_t i = 0; i < n; ++i)
+        {
+            res.arr_[i] = arr_[i] + other.arr_[i];
+        }
+        return res;
+    }
+
+    Vector<Т, n> &operator+=(const Vector<Т, n> &other)
+    {
+        for (size_t i = 0; i < n; ++i)
+        {
+            arr_[i] += other.arr_[i];
+        }
+        return *this;
+    }
+
     Vector<Т, n> &operator+=(const Т &value)
     {
         for (size_t i = 0; i < n; ++i)
@@ -137,6 +156,25 @@ public:
             res.arr_[i] = value - vector.arr_[i];
         }
         return res;
+    }
+
+    Vector<Т, n> operator-(const Vector<Т, n> &other) const
+    {
+        Vector<Т, n> res;
+        for (size_t i = 0; i < n; ++i)
+        {
+            res.arr_[i] = arr_[i] - other.arr_[i];
+        }
+        return res;
+    }
+
+    Vector<Т, n> &operator-=(const Vector<Т, n> &other)
+    {
+        for (size_t i = 0; i < n; ++i)
+        {
+            arr_[i] -= other.arr_[i];
+        }
+        return *this;
     }
 
     Vector<Т, n> &operator-=(const Т &value)
@@ -173,44 +211,6 @@ public:
         for (size_t i = 0; i < n; ++i)
         {
             arr_[i] *= value;
-        }
-        return *this;
-    }
-
-    Vector<Т, n> operator+(const Vector<Т, n> &other) const
-    {
-        Vector<Т, n> res;
-        for (size_t i = 0; i < n; ++i)
-        {
-            res.arr_[i] = arr_[i] + other.arr_[i];
-        }
-        return res;
-    }
-
-    Vector<Т, n> &operator+=(const Vector<Т, n> &other)
-    {
-        for (size_t i = 0; i < n; ++i)
-        {
-            arr_[i] += other.arr_[i];
-        }
-        return *this;
-    }
-
-    Vector<Т, n> operator-(const Vector<Т, n> &other) const
-    {
-        Vector<Т, n> res;
-        for (size_t i = 0; i < n; ++i)
-        {
-            res.arr_[i] = arr_[i] - other.arr_[i];
-        }
-        return res;
-    }
-
-    Vector<Т, n> &operator-=(const Vector<Т, n> &other)
-    {
-        for (size_t i = 0; i < n; ++i)
-        {
-            arr_[i] -= other.arr_[i];
         }
         return *this;
     }
