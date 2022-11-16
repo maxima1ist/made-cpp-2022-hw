@@ -19,9 +19,9 @@ RUN cd /usr/src/googletest && \
     cmake . && \
     cmake --build . --target install
 
-COPY . /hw01
+COPY . /hw02
 
-WORKDIR /hw01
+WORKDIR /hw02
 
 RUN ./scripts/build.sh
 

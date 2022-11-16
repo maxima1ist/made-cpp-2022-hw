@@ -1,14 +1,14 @@
 #pragma once
 
-#include "vector.h"
+#include "vector.hpp"
 
-template <class ValueType, size_t m = 1, size_t n = 1>
+template <class Т, size_t m = 1, size_t n = 1>
 class Matrix
 {
 public:
     Matrix() {}
 
-    Matrix(std::array<ValueType, m * n> values)
+    Matrix(const std::array<Т, m * n> &values)
     {
         for (size_t i = 0; i < m; ++i)
         {
@@ -16,7 +16,7 @@ public:
         }
     }
 
-    Matrix(std::array<Vector<ValueType, n>, m> vectors)
+    Matrix(const std::array<Vector<Т, n>, m> &vectors)
     {
         for (size_t i = 0; i < m; ++i)
         {
@@ -24,7 +24,7 @@ public:
         }
     }
 
-    Matrix(const Matrix<ValueType, m, n> &other)
+    Matrix(const Matrix<Т, m, n> &other)
     {
         for (size_t i = 0; i < m; ++i)
         {
@@ -32,12 +32,12 @@ public:
         }
     }
 
-    size_t size() const
+    std::pair<size_t, size_t> size() const
     {
-        return m;
+        return std::make_pair(m, n);
     }
 
-    bool operator==(const Matrix<ValueType, m, n> &other) const
+    bool operator==(const Matrix<Т, m, n> &other) const
     {
         for (size_t i = 0; i < m; ++i)
         {
@@ -49,9 +49,9 @@ public:
         return true;
     }
 
-    const Vector<ValueType, n> &operator[](size_t i) const
+    const Vector<Т, n> &operator[](size_t i) const
     {
-        if (i > m)
+        if (i >= m)
         {
             throw std::runtime_error("out of the range");
         }
@@ -59,9 +59,9 @@ public:
         return matrix_[i];
     }
 
-    Vector<ValueType, n> &operator[](size_t i)
+    Vector<Т, n> &operator[](size_t i)
     {
-        if (i > m)
+        if (i >= m)
         {
             throw std::runtime_error("out of the range");
         }
@@ -70,46 +70,46 @@ public:
     }
 
     template <size_t diag_size = std::min(m, n)>
-    Vector<ValueType, diag_size> get_diag() const
+    Vector<Т, diag_size> get_diag() const
     {
         static_assert(diag_size == std::min(m, n));
 
-        std::array<ValueType, diag_size> diag;
+        Vector<Т, diag_size> diag;
         for (size_t i = 0; i < diag_size; ++i)
         {
             diag[i] = matrix_[i][i];
         }
-        return {std::move(diag)};
+        return diag;
     }
 
-    Vector<ValueType, n> get_row(size_t i) const
+    Vector<Т, n> get_row(size_t i) const
     {
-        if (i > m)
+        if (i >= m)
         {
             throw std::runtime_error("out of the range");
         }
 
-        return {matrix_[i].arr_};
+        return matrix_[i];
     }
 
-    Vector<ValueType, m> get_column(size_t i) const
+    Vector<Т, m> get_column(size_t i) const
     {
-        if (i > n)
+        if (i >= n)
         {
             throw std::runtime_error("out of the range");
         }
 
-        std::array<ValueType, m> column;
+        Vector<Т, m> column;
         for (size_t j = 0; j < m; ++j)
         {
             column[j] = matrix_[j][i];
         }
-        return {std::move(column)};
+        return column;
     }
 
-    Matrix<ValueType, m, n> operator+(const ValueType &value) const
+    Matrix<Т, m, n> operator+(const Т &value) const
     {
-        Matrix<ValueType, m, n> res;
+        Matrix<Т, m, n> res;
         for (size_t i = 0; i < m; ++i)
         {
             res.matrix_[i] = matrix_[i] + value;
@@ -117,9 +117,9 @@ public:
         return res;
     }
 
-    friend Matrix<ValueType, m, n> operator+(const ValueType &value, const Matrix<ValueType, m, n> &matrix)
+    friend Matrix<Т, m, n> operator+(const Т &value, const Matrix<Т, m, n> &matrix)
     {
-        Matrix<ValueType, m, n> res;
+        Matrix<Т, m, n> res;
         for (size_t i = 0; i < m; ++i)
         {
             res.matrix_[i] = matrix.matrix_[i] + value;
@@ -127,7 +127,7 @@ public:
         return res;
     }
 
-    Matrix<ValueType, m, n> &operator+=(const ValueType &value)
+    Matrix<Т, m, n> &operator+=(const Т &value)
     {
         for (size_t i = 0; i < m; ++i)
         {
@@ -136,9 +136,9 @@ public:
         return *this;
     }
 
-    Matrix<ValueType, m, n> operator-(const ValueType &value) const
+    Matrix<Т, m, n> operator-(const Т &value) const
     {
-        Matrix<ValueType, m, n> res;
+        Matrix<Т, m, n> res;
         for (size_t i = 0; i < m; ++i)
         {
             res.matrix_[i] = matrix_[i] - value;
@@ -146,9 +146,9 @@ public:
         return res;
     }
 
-    friend Matrix<ValueType, m, n> operator-(const ValueType &value, const Matrix<ValueType, m, n> &matrix)
+    friend Matrix<Т, m, n> operator-(const Т &value, const Matrix<Т, m, n> &matrix)
     {
-        Matrix<ValueType, m, n> res;
+        Matrix<Т, m, n> res;
         for (size_t i = 0; i < m; ++i)
         {
             res.matrix_[i] = value - matrix.matrix_[i];
@@ -156,7 +156,7 @@ public:
         return res;
     }
 
-    Matrix<ValueType, m, n> &operator-=(const ValueType &value)
+    Matrix<Т, m, n> &operator-=(const Т &value)
     {
         for (size_t i = 0; i < m; ++i)
         {
@@ -165,9 +165,9 @@ public:
         return *this;
     }
 
-    Matrix<ValueType, m, n> operator*(const ValueType &value) const
+    Matrix<Т, m, n> operator*(const Т &value) const
     {
-        Matrix<ValueType, m, n> res;
+        Matrix<Т, m, n> res;
         for (size_t i = 0; i < m; ++i)
         {
             res.matrix_[i] = matrix_[i] * value;
@@ -175,9 +175,9 @@ public:
         return res;
     }
 
-    friend Matrix<ValueType, m, n> operator*(const ValueType &value, const Matrix<ValueType, m, n> &matrix)
+    friend Matrix<Т, m, n> operator*(const Т &value, const Matrix<Т, m, n> &matrix)
     {
-        Matrix<ValueType, m, n> res;
+        Matrix<Т, m, n> res;
         for (size_t i = 0; i < m; ++i)
         {
             res.matrix_[i] = matrix.matrix_[i] * value;
@@ -185,7 +185,7 @@ public:
         return res;
     }
 
-    Matrix<ValueType, m, n> &operator*=(const ValueType &value)
+    Matrix<Т, m, n> &operator*=(const Т &value)
     {
         for (size_t i = 0; i < m; ++i)
         {
@@ -194,9 +194,9 @@ public:
         return *this;
     }
 
-    Matrix<ValueType, m, n> add_by_column(const Vector<ValueType, m> &vector)
+    Matrix<Т, m, n> add_by_column(const Vector<Т, m> &vector)
     {
-        Matrix<ValueType, m, n> res = *this;
+        Matrix<Т, m, n> res = *this;
         for (size_t i = 0; i < m; ++i)
         {
             for (size_t j = 0; j < n; ++j)
@@ -207,9 +207,9 @@ public:
         return res;
     }
 
-    Matrix<ValueType, m, n> add_by_row(const Vector<ValueType, n> &vector)
+    Matrix<Т, m, n> add_by_row(const Vector<Т, n> &vector)
     {
-        Matrix<ValueType, m, n> res = *this;
+        Matrix<Т, m, n> res = *this;
         for (size_t i = 0; i < m; ++i)
         {
             for (size_t j = 0; j < n; ++j)
@@ -220,9 +220,9 @@ public:
         return res;
     }
 
-    Matrix<ValueType, m, n> sub_by_column(const Vector<ValueType, m> &vector)
+    Matrix<Т, m, n> sub_by_column(const Vector<Т, m> &vector)
     {
-        Matrix<ValueType, m, n> res = *this;
+        Matrix<Т, m, n> res = *this;
         for (size_t i = 0; i < m; ++i)
         {
             for (size_t j = 0; j < n; ++j)
@@ -233,9 +233,9 @@ public:
         return res;
     }
 
-    Matrix<ValueType, m, n> sub_by_row(const Vector<ValueType, n> &vector)
+    Matrix<Т, m, n> sub_by_row(const Vector<Т, n> &vector)
     {
-        Matrix<ValueType, m, n> res = *this;
+        Matrix<Т, m, n> res = *this;
         for (size_t i = 0; i < m; ++i)
         {
             for (size_t j = 0; j < n; ++j)
@@ -246,9 +246,9 @@ public:
         return res;
     }
 
-    Matrix<ValueType, m, n> operator+(const Matrix<ValueType, m, n> &other) const
+    Matrix<Т, m, n> operator+(const Matrix<Т, m, n> &other) const
     {
-        Matrix<ValueType, m, n> res;
+        Matrix<Т, m, n> res;
         for (size_t i = 0; i < m; ++i)
         {
             res.matrix_[i] = matrix_[i] + other.matrix_[i];
@@ -256,7 +256,7 @@ public:
         return res;
     }
 
-    Matrix<ValueType, m, n> &operator+=(const Matrix<ValueType, m, n> &other)
+    Matrix<Т, m, n> &operator+=(const Matrix<Т, m, n> &other)
     {
         for (size_t i = 0; i < m; ++i)
         {
@@ -265,9 +265,9 @@ public:
         return *this;
     }
 
-    Matrix<ValueType, m, n> operator-(const Matrix<ValueType, m, n> &other) const
+    Matrix<Т, m, n> operator-(const Matrix<Т, m, n> &other) const
     {
-        Matrix<ValueType, m, n> res;
+        Matrix<Т, m, n> res;
         for (size_t i = 0; i < m; ++i)
         {
             res.matrix_[i] = matrix_[i] - other.matrix_[i];
@@ -275,7 +275,7 @@ public:
         return res;
     }
 
-    Matrix<ValueType, m, n> &operator-=(const Matrix<ValueType, m, n> &other)
+    Matrix<Т, m, n> &operator-=(const Matrix<Т, m, n> &other)
     {
         for (size_t i = 0; i < m; ++i)
         {
@@ -284,9 +284,9 @@ public:
         return *this;
     }
 
-    Matrix<ValueType, m, n> operator*(const Matrix<ValueType, m, n> &other) const
+    Matrix<Т, m, n> operator*(const Matrix<Т, m, n> &other) const
     {
-        Matrix<ValueType, m, n> res;
+        Matrix<Т, m, n> res;
         for (size_t i = 0; i < m; ++i)
         {
             res.matrix_[i] = matrix_[i] * other.matrix_[i];
@@ -294,7 +294,7 @@ public:
         return res;
     }
 
-    Matrix<ValueType, m, n> &operator*=(const Matrix<ValueType, m, n> &other)
+    Matrix<Т, m, n> &operator*=(const Matrix<Т, m, n> &other)
     {
         for (size_t i = 0; i < m; ++i)
         {
@@ -303,9 +303,9 @@ public:
         return *this;
     }
 
-    Vector<ValueType, m> dot(const Vector<ValueType, n> &vector) const
+    Vector<Т, m> dot(const Vector<Т, n> &vector) const
     {
-        Vector<ValueType, m> res;
+        Vector<Т, m> res;
         for (size_t i = 0; i < m; ++i)
         {
             res[i] = 0;
@@ -318,9 +318,9 @@ public:
     }
 
     template <size_t k>
-    Matrix<ValueType, m, k> dot(const Matrix<ValueType, n, k> &other) const
+    Matrix<Т, m, k> dot(const Matrix<Т, n, k> &other) const
     {
-        Matrix<ValueType, m, k> res;
+        Matrix<Т, m, k> res;
         for (size_t i = 0; i < m; ++i)
         {
             for (size_t j = 0; j < k; ++j)
@@ -335,9 +335,9 @@ public:
         return res;
     }
 
-    Matrix<ValueType, n, m> get_transpose() const
+    Matrix<Т, n, m> get_transpose() const
     {
-        Matrix<ValueType, n, m> res;
+        Matrix<Т, n, m> res;
         for (size_t i = 0; i < n; ++i)
         {
             for (size_t j = 0; j < m; ++j)
@@ -348,23 +348,23 @@ public:
         return res;
     }
 
-    template <size_t min_size = std::min(m, n)>
-    ValueType get_determinant() const
+    Т get_determinant() const
     {
-        return find_determinant<min_size>(*this, min_size);
+        static_assert(m == n, "determinant computes only for square matrix");
+        return find_determinant<m>(*this, m);
     }
 
     template <size_t min_size = std::min(m, n)>
-    Matrix<ValueType, min_size, min_size> get_inversed() const
+    Matrix<Т, min_size, min_size> get_inversed() const
     {
         return find_inversed<min_size>(*this);
     }
 
 private:
     template <size_t size>
-    static ValueType find_determinant(const Matrix<ValueType, size, size> &matrix, size_t dimension)
+    static Т find_determinant(const Matrix<Т, size, size> &matrix, size_t dimension)
     {
-        ValueType res = 0;
+        Т res = 0;
 
         if (dimension == 1)
         {
@@ -376,7 +376,7 @@ private:
             return ((matrix[0][0] * matrix[1][1]) - (matrix[1][0] * matrix[0][1]));
         }
 
-        Matrix<ValueType, size, size> tmp;
+        Matrix<Т, size, size> tmp;
         for (size_t x = 0; x < dimension; ++x)
         {
             size_t subi = 0;
@@ -402,7 +402,7 @@ private:
     }
 
     template <size_t size>
-    static void get_cofactor(const Matrix<ValueType, size, size> &matrix, Matrix<ValueType, size, size> &tmp,
+    static void get_cofactor(const Matrix<Т, size, size> &matrix, Matrix<Т, size, size> &tmp,
                              size_t p, size_t q, size_t tmp_size)
     {
         size_t i = 0, j = 0;
@@ -424,7 +424,7 @@ private:
     }
 
     template <size_t size>
-    static void adjoint(const Matrix<ValueType, size, size> &matrix, Matrix<ValueType, size, size> &adj)
+    static void adjoint(const Matrix<Т, size, size> &matrix, Matrix<Т, size, size> &adj)
     {
         if (size == 1)
         {
@@ -433,7 +433,7 @@ private:
         }
 
         ssize_t sign = 1;
-        Matrix<ValueType, size, size> tmp;
+        Matrix<Т, size, size> tmp;
         for (size_t i = 0; i < size; ++i)
         {
             for (size_t j = 0; j < size; ++j)
@@ -446,18 +446,18 @@ private:
     }
 
     template <size_t size>
-    static Matrix<ValueType, size, size> find_inversed(const Matrix<ValueType, size, size> &matrix)
+    static Matrix<Т, size, size> find_inversed(const Matrix<Т, size, size> &matrix)
     {
-        ValueType det = find_determinant<size>(matrix, size);
+        Т det = find_determinant<size>(matrix, size);
         if (det == 0)
         {
             throw std::runtime_error("nonsingular matrix");
         }
 
-        Matrix<ValueType, size, size> adj;
+        Matrix<Т, size, size> adj;
         adjoint<size>(matrix, adj);
 
-        Matrix<ValueType, size, size> res;
+        Matrix<Т, size, size> res;
         for (size_t i = 0; i < size; ++i)
         {
             for (size_t j = 0; j < size; j++)
@@ -469,5 +469,5 @@ private:
         return res;
     }
 
-    Vector<Vector<ValueType, n>, m> matrix_;
+    Vector<Vector<Т, n>, m> matrix_;
 };

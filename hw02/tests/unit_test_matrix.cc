@@ -1,34 +1,15 @@
-#include "matrix.h"
+#include "matrix.hpp"
 
 #include <gtest/gtest.h>
-
-TEST(VectorTest, Size)
-{
-    Vector<double, 5> vector;
-    ASSERT_EQ(vector.size(), 5);
-}
 
 TEST(MatrixTest, TestSize)
 {
     Matrix<double, 5, 10> matrix;
-    ASSERT_EQ(matrix.size(), 5);
-    for (size_t i; i < matrix.size(); ++i)
+    ASSERT_EQ(matrix.size().first, 5);
+    ASSERT_EQ(matrix.size().second, 10);
+    for (size_t i; i < matrix.size().first; ++i)
     {
         ASSERT_EQ(matrix[i].size(), 10);
-    }
-}
-
-TEST(VectorTest, ByIndex)
-{
-    Vector<double, 3> vector({0, 1, 2});
-    for (size_t i = 0; i < vector.size(); ++i)
-    {
-        ASSERT_EQ(vector[i], i);
-
-        auto prev_value = vector[i];
-        vector[i] = i + 1;
-        ASSERT_EQ(vector[i], i + 1);
-        ASSERT_EQ(prev_value, i);
     }
 }
 
@@ -36,9 +17,9 @@ TEST(MatrixTest, ByIndex)
 {
     Matrix<double, 2, 2> matrix({Vector<double, 2>({0, 1}),
                                  Vector<double, 2>({0, 1})});
-    for (size_t i = 0; i < matrix.size(); ++i)
+    for (size_t i = 0; i < matrix.size().first; ++i)
     {
-        for (size_t j = 0; j < matrix[i].size(); ++j)
+        for (size_t j = 0; j < matrix.size().second; ++j)
         {
             ASSERT_EQ(matrix[i][j], j);
 
@@ -48,6 +29,14 @@ TEST(MatrixTest, ByIndex)
             ASSERT_EQ(prev_value, j);
         }
     }
+}
+
+TEST(MatrixTest, CopyConstructor)
+{
+    Matrix<double, 2, 2> matrix({Vector<double, 2>({0, 1}),
+                                 Vector<double, 2>({0, 1})});
+    Matrix<double, 2, 2> other(matrix);
+    ASSERT_TRUE((bool)(matrix == other));
 }
 
 TEST(MatrixTest, Diag)
@@ -95,33 +84,6 @@ TEST(MatrixTest, Column)
     ASSERT_TRUE((bool)(Vector<double, 2>({2, 5}) == horizontal.get_column(1)));
 }
 
-TEST(VectorTest, AddSubMultWithNumber)
-{
-    ASSERT_TRUE((bool)(Vector<double, 3>({11, 12, 13}) == Vector<double, 3>({1, 2, 3}) + 10));
-    ASSERT_TRUE((bool)(Vector<double, 3>({11, 12, 13}) == (Vector<double, 3>({1, 2, 3}) += 10)));
-    ASSERT_TRUE((bool)(Vector<double, 3>({6, 7, 8}) == 5 + Vector<double, 3>({1, 2, 3})));
-
-    ASSERT_TRUE((bool)(Vector<double, 3>({0, 1, 2}) == Vector<double, 3>({1, 2, 3}) - 1));
-    ASSERT_TRUE((bool)(Vector<double, 3>({0, 1, 2}) == (Vector<double, 3>({1, 2, 3}) -= 1)));
-    ASSERT_TRUE((bool)(Vector<double, 3>({1, 0, -1}) == 2 - Vector<double, 3>({1, 2, 3})));
-
-    ASSERT_TRUE((bool)(Vector<double, 3>({3, 6, 9}) == Vector<double, 3>({1, 2, 3}) * 3));
-    ASSERT_TRUE((bool)(Vector<double, 3>({3, 6, 9}) == (Vector<double, 3>({1, 2, 3}) *= 3)));
-    ASSERT_TRUE((bool)(Vector<double, 3>({2, 4, 6}) == 2 * Vector<double, 3>({1, 2, 3})));
-}
-
-TEST(VectorTest, AddSubMultWithVector)
-{
-    ASSERT_TRUE((bool)(Vector<double, 3>({1, 2, 3}) + Vector<double, 3>({3, 2, 1}) == Vector<double, 3>({4, 4, 4})));
-    ASSERT_TRUE((bool)((Vector<double, 3>({1, 2, 3}) += Vector<double, 3>({3, 2, 1})) == Vector<double, 3>({4, 4, 4})));
-
-    ASSERT_TRUE((bool)(Vector<double, 3>({1, 2, 3}) - Vector<double, 3>({3, 2, 1}) == Vector<double, 3>({-2, 0, 2})));
-    ASSERT_TRUE((bool)((Vector<double, 3>({1, 2, 3}) -= Vector<double, 3>({3, 2, 1})) == Vector<double, 3>({-2, 0, 2})));
-
-    ASSERT_TRUE((bool)(Vector<double, 3>({1, 2, 3}) * Vector<double, 3>({3, 2, 1}) == Vector<double, 3>({3, 4, 3})));
-    ASSERT_TRUE((bool)((Vector<double, 3>({1, 2, 3}) *= Vector<double, 3>({3, 2, 1})) == Vector<double, 3>({3, 4, 3})));
-}
-
 TEST(MatrixTest, AddSubMultWithNumber)
 {
     ASSERT_TRUE((bool)(Matrix<double, 2, 2>({3, 4, 5, 6}) == Matrix<double, 2, 2>({2, 3, 4, 5}) + 1));
@@ -158,11 +120,6 @@ TEST(MatrixTest, AddSubMultWithMatrix)
     ASSERT_TRUE((bool)((Matrix<double, 2, 2>({1, 2, 3, 4}) *= Matrix<double, 2, 2>({4, 3, 2, 1})) == Matrix<double, 2, 2>({4, 6, 6, 4})));
 }
 
-TEST(VectorTest, DotVector)
-{
-    ASSERT_TRUE((bool)(Vector<double, 3>({1, 2, 3}).dot(Vector<double, 3>({3, 2, 1})) == 3 + 4 + 3));
-}
-
 TEST(MatrixTest, DotVector)
 {
     ASSERT_TRUE((bool)(Matrix<double, 2, 3>({1, 2, 3, 4, 5, 6}).dot(Vector<double, 3>({1, 2, 3})) == Vector<double, 2>({1 + 4 + 9, 4 + 10 + 18})));
@@ -193,14 +150,8 @@ TEST(MatrixTest, Inversed)
     ASSERT_TRUE((bool)(Matrix<double, 1, 1>({100}).get_inversed() == Matrix<double, 1>({0.01})));
     ASSERT_TRUE((bool)(Matrix<double, 2, 2>({1, 2, 3, 4}).get_inversed() == Matrix<double, 2, 2>({-2, 1, 1.5, -0.5})));
     ASSERT_TRUE((bool)(Matrix<double, 3, 3>({1, 1, 4, 1, 2, 4, 1, 2, 2}).get_inversed() == Matrix<double, 3, 3>({2, -3, 2, -1, 1, 0, 0, 0.5, -0.5})));
-}
 
-TEST(VectorTest, Slice)
-{
-    ASSERT_TRUE((bool)(Vector<double, 4>({0, 1, 2, 3}).slice() == Vector<double, 4>({0, 1, 2, 3})));
-    ASSERT_TRUE((bool)(Vector<double, 4>({0, 1, 2, 3}).slice<1, 1>() == Vector<double, 0>()));
-    ASSERT_TRUE((bool)(Vector<double, 4>({0, 1, 2, 3}).slice<1, 3>() == Vector<double, 2>({1, 2})));
-    ASSERT_TRUE((bool)(Vector<double, 4>({0, 1, 2, 3}).slice<0, 4, 2>() == Vector<double, 2>({0, 2})));
+    Matrix<double, 1, 1>({100}).get_diag<1>();
 }
 
 int main(int argc, char *argv[])

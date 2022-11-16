@@ -1,16 +1,18 @@
-#include "matrix.h"
+#include "matrix.hpp"
 
 #include <gtest/gtest.h>
+
+static constexpr double gRealNumberPrecision = 1e-6;
 
 TEST(TestMatrixVector, FullTest)
 {
     Matrix<double, 2, 2> one({1, 2, 3, 4});
     Matrix<double, 2, 2> two({Vector<double, 2>({1, 2}),
                               Vector<double, 2>({3, 4})});
-    ASSERT_NEAR(one[0][0], two[0][0], REAL_NUMBER_PRECISION);
-    ASSERT_NEAR(one[0][1], two[0][1], REAL_NUMBER_PRECISION);
-    ASSERT_NEAR(one[1][0], two[1][0], REAL_NUMBER_PRECISION);
-    ASSERT_NEAR(one[1][1], two[1][1], REAL_NUMBER_PRECISION);
+    ASSERT_NEAR(one[0][0], two[0][0], gRealNumberPrecision);
+    ASSERT_NEAR(one[0][1], two[0][1], gRealNumberPrecision);
+    ASSERT_NEAR(one[1][0], two[1][0], gRealNumberPrecision);
+    ASSERT_NEAR(one[1][1], two[1][1], gRealNumberPrecision);
 
     ASSERT_TRUE((bool)(one.get_diag().slice<0>() == two.get_diag()));
     ASSERT_TRUE((bool)(one.get_row(0).slice<0, 1>() == two.get_row(0).slice<0, 1>()));
@@ -31,9 +33,9 @@ TEST(TestMatrixVector, FullTest)
 
     Matrix<double, 2, 2> transposed({1, 3, 2, 4});
     ASSERT_TRUE((bool)(one.get_transpose() == transposed));
-    ASSERT_NEAR(one.get_transpose().get_determinant(), -2, REAL_NUMBER_PRECISION);
+    ASSERT_NEAR(one.get_transpose().get_determinant(), -2, gRealNumberPrecision);
 
     Matrix<double, 2, 2> inversed({-2, 1, 1.5, -0.5});
     ASSERT_TRUE((bool)(one.get_inversed() == inversed));
-    ASSERT_NEAR(one.get_inversed().get_determinant(), 1 / (double)-2, REAL_NUMBER_PRECISION);
+    ASSERT_NEAR(one.get_inversed().get_determinant(), 1 / (double)-2, gRealNumberPrecision);
 }
