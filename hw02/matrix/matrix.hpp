@@ -127,6 +127,25 @@ public:
         return res;
     }
 
+    Matrix<Т, m, n> operator+(const Matrix<Т, m, n> &other) const
+    {
+        Matrix<Т, m, n> res;
+        for (size_t i = 0; i < m; ++i)
+        {
+            res.matrix_[i] = matrix_[i] + other.matrix_[i];
+        }
+        return res;
+    }
+
+    Matrix<Т, m, n> &operator+=(const Matrix<Т, m, n> &other)
+    {
+        for (size_t i = 0; i < m; ++i)
+        {
+            matrix_[i] += other.matrix_[i];
+        }
+        return *this;
+    }
+
     Matrix<Т, m, n> &operator+=(const Т &value)
     {
         for (size_t i = 0; i < m; ++i)
@@ -154,6 +173,25 @@ public:
             res.matrix_[i] = value - matrix.matrix_[i];
         }
         return res;
+    }
+
+    Matrix<Т, m, n> operator-(const Matrix<Т, m, n> &other) const
+    {
+        Matrix<Т, m, n> res;
+        for (size_t i = 0; i < m; ++i)
+        {
+            res.matrix_[i] = matrix_[i] - other.matrix_[i];
+        }
+        return res;
+    }
+
+    Matrix<Т, m, n> &operator-=(const Matrix<Т, m, n> &other)
+    {
+        for (size_t i = 0; i < m; ++i)
+        {
+            matrix_[i] -= other.matrix_[i];
+        }
+        return *this;
     }
 
     Matrix<Т, m, n> &operator-=(const Т &value)
@@ -244,44 +282,6 @@ public:
             }
         }
         return res;
-    }
-
-    Matrix<Т, m, n> operator+(const Matrix<Т, m, n> &other) const
-    {
-        Matrix<Т, m, n> res;
-        for (size_t i = 0; i < m; ++i)
-        {
-            res.matrix_[i] = matrix_[i] + other.matrix_[i];
-        }
-        return res;
-    }
-
-    Matrix<Т, m, n> &operator+=(const Matrix<Т, m, n> &other)
-    {
-        for (size_t i = 0; i < m; ++i)
-        {
-            matrix_[i] += other.matrix_[i];
-        }
-        return *this;
-    }
-
-    Matrix<Т, m, n> operator-(const Matrix<Т, m, n> &other) const
-    {
-        Matrix<Т, m, n> res;
-        for (size_t i = 0; i < m; ++i)
-        {
-            res.matrix_[i] = matrix_[i] - other.matrix_[i];
-        }
-        return res;
-    }
-
-    Matrix<Т, m, n> &operator-=(const Matrix<Т, m, n> &other)
-    {
-        for (size_t i = 0; i < m; ++i)
-        {
-            matrix_[i] -= other.matrix_[i];
-        }
-        return *this;
     }
 
     Matrix<Т, m, n> operator*(const Matrix<Т, m, n> &other) const
