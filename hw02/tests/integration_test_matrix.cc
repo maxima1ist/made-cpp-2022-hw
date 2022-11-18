@@ -18,18 +18,18 @@ TEST(TestMatrixVector, FullTest)
     ASSERT_TRUE((bool)(one.get_row(0).slice<0, 1>() == two.get_row(0).slice<0, 1>()));
     ASSERT_TRUE((bool)(one.get_column(1).slice<0, 2, 2>() == two.get_column(1).slice<0, 2, 2>()));
 
-    ASSERT_TRUE((bool)(3 * one == one + two + one));
-    ASSERT_TRUE((bool)(3 * (one + two) == 6 * two));
+    ASSERT_TRUE((bool)(3. * one == one + two + one));
+    ASSERT_TRUE((bool)(3. * (one + two) == 6. * two));
 
     Matrix<double, 2, 2> zero({0, 0, 0, 0});
     ASSERT_TRUE((bool)(zero == one - two));
-    ASSERT_TRUE((bool)(zero == one + two - 2 * one));
+    ASSERT_TRUE((bool)(zero == one + two - 2. * one));
 
     Matrix<double, 2, 2> mult({1 + 10, 4 + 10, 9 + 10, 16 + 10});
-    ASSERT_TRUE((bool)(mult == one * two + 10));
+    ASSERT_TRUE((bool)(mult == one * two + 10.));
 
     Matrix<double, 2, 2> dot_product({2 * 7, 2 * 10, 2 * 15, 2 * 22});
-    ASSERT_TRUE((bool)(dot_product == 2 * one.dot(two)));
+    ASSERT_TRUE((bool)(dot_product == 2. * one.dot(two)));
 
     Matrix<double, 2, 2> transposed({1, 3, 2, 4});
     ASSERT_TRUE((bool)(one.get_transpose() == transposed));
@@ -37,5 +37,5 @@ TEST(TestMatrixVector, FullTest)
 
     Matrix<double, 2, 2> inversed({-2, 1, 1.5, -0.5});
     ASSERT_TRUE((bool)(one.get_inversed() == inversed));
-    ASSERT_NEAR(one.get_inversed().get_determinant(), 1 / (double)-2, gRealNumberPrecision);
+    ASSERT_NEAR(one.get_inversed().get_determinant(), 1 / -2., gRealNumberPrecision);
 }

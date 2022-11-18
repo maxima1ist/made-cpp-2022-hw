@@ -31,17 +31,17 @@ TEST(VectorTest, CopyConstructor)
 
 TEST(VectorTest, AddSubMultWithNumber)
 {
-    ASSERT_TRUE((bool)(Vector<double, 3>({11, 12, 13}) == Vector<double, 3>({1, 2, 3}) + 10));
+    ASSERT_TRUE((bool)(Vector<double, 3>({11, 12, 13}) == Vector<double, 3>({1, 2, 3}) + 10.));
     ASSERT_TRUE((bool)(Vector<double, 3>({11, 12, 13}) == (Vector<double, 3>({1, 2, 3}) += 10)));
-    ASSERT_TRUE((bool)(Vector<double, 3>({6, 7, 8}) == 5 + Vector<double, 3>({1, 2, 3})));
+    ASSERT_TRUE((bool)(Vector<double, 3>({6, 7, 8}) == 5. + Vector<double, 3>({1, 2, 3})));
 
-    ASSERT_TRUE((bool)(Vector<double, 3>({0, 1, 2}) == Vector<double, 3>({1, 2, 3}) - 1));
+    ASSERT_TRUE((bool)(Vector<double, 3>({0, 1, 2}) == Vector<double, 3>({1, 2, 3}) - 1.));
     ASSERT_TRUE((bool)(Vector<double, 3>({0, 1, 2}) == (Vector<double, 3>({1, 2, 3}) -= 1)));
-    ASSERT_TRUE((bool)(Vector<double, 3>({1, 0, -1}) == 2 - Vector<double, 3>({1, 2, 3})));
+    ASSERT_TRUE((bool)(Vector<double, 3>({1, 0, -1}) == 2. - Vector<double, 3>({1, 2, 3})));
 
-    ASSERT_TRUE((bool)(Vector<double, 3>({3, 6, 9}) == Vector<double, 3>({1, 2, 3}) * 3));
+    ASSERT_TRUE((bool)(Vector<double, 3>({3, 6, 9}) == Vector<double, 3>({1, 2, 3}) * 3.));
     ASSERT_TRUE((bool)(Vector<double, 3>({3, 6, 9}) == (Vector<double, 3>({1, 2, 3}) *= 3)));
-    ASSERT_TRUE((bool)(Vector<double, 3>({2, 4, 6}) == 2 * Vector<double, 3>({1, 2, 3})));
+    ASSERT_TRUE((bool)(Vector<double, 3>({2, 4, 6}) == 2. * Vector<double, 3>({1, 2, 3})));
 }
 
 TEST(VectorTest, AddSubMultWithVector)
