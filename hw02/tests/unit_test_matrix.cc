@@ -86,17 +86,17 @@ TEST(MatrixTest, Column)
 
 TEST(MatrixTest, AddSubMultWithNumber)
 {
-    ASSERT_TRUE((bool)(Matrix<double, 2, 2>({3, 4, 5, 6}) == Matrix<double, 2, 2>({2, 3, 4, 5}) + 1));
-    ASSERT_TRUE((bool)(Matrix<double, 2, 2>({3, 4, 5, 6}) == (Matrix<double, 2, 2>({2, 3, 4, 5}) += 1)));
-    ASSERT_TRUE((bool)(Matrix<double, 2, 2>({3, 4, 5, 6}) == 1 + Matrix<double, 2, 2>({2, 3, 4, 5})));
+    ASSERT_TRUE((bool)(Matrix<double, 2, 2>({3, 4, 5, 6}) == Matrix<double, 2, 2>({2, 3, 4, 5}) + 1.));
+    ASSERT_TRUE((bool)(Matrix<double, 2, 2>({3, 4, 5, 6}) == (Matrix<double, 2, 2>({2, 3, 4, 5}) += 1.)));
+    ASSERT_TRUE((bool)(Matrix<double, 2, 2>({3, 4, 5, 6}) == 1. + Matrix<double, 2, 2>({2, 3, 4, 5})));
 
-    ASSERT_TRUE((bool)(Matrix<double, 2, 2>({1, 2, 3, 4}) == Matrix<double, 2, 2>({2, 3, 4, 5}) - 1));
-    ASSERT_TRUE((bool)(Matrix<double, 2, 2>({1, 2, 3, 4}) == (Matrix<double, 2, 2>({2, 3, 4, 5}) -= 1)));
-    ASSERT_TRUE((bool)(Matrix<double, 2, 2>({-1, -2, -3, -4}) == 1 - Matrix<double, 2, 2>({2, 3, 4, 5})));
+    ASSERT_TRUE((bool)(Matrix<double, 2, 2>({1, 2, 3, 4}) == Matrix<double, 2, 2>({2, 3, 4, 5}) - 1.));
+    ASSERT_TRUE((bool)(Matrix<double, 2, 2>({1, 2, 3, 4}) == (Matrix<double, 2, 2>({2, 3, 4, 5}) -= 1.)));
+    ASSERT_TRUE((bool)(Matrix<double, 2, 2>({-1, -2, -3, -4}) == 1. - Matrix<double, 2, 2>({2, 3, 4, 5})));
 
-    ASSERT_TRUE((bool)(Matrix<double, 2, 2>({4, 6, 8, 10}) == Matrix<double, 2, 2>({2, 3, 4, 5}) * 2));
-    ASSERT_TRUE((bool)(Matrix<double, 2, 2>({4, 6, 8, 10}) == (Matrix<double, 2, 2>({2, 3, 4, 5}) *= 2)));
-    ASSERT_TRUE((bool)(Matrix<double, 2, 2>({4, 6, 8, 10}) == 2 * Matrix<double, 2, 2>({2, 3, 4, 5})));
+    ASSERT_TRUE((bool)(Matrix<double, 2, 2>({4, 6, 8, 10}) == Matrix<double, 2, 2>({2, 3, 4, 5}) * 2.));
+    ASSERT_TRUE((bool)(Matrix<double, 2, 2>({4, 6, 8, 10}) == (Matrix<double, 2, 2>({2, 3, 4, 5}) *= 2.)));
+    ASSERT_TRUE((bool)(Matrix<double, 2, 2>({4, 6, 8, 10}) == 2. * Matrix<double, 2, 2>({2, 3, 4, 5})));
 }
 
 TEST(MatrixTest, AddSubVector)
@@ -147,11 +147,11 @@ TEST(MatrixTest, Determinant)
 
 TEST(MatrixTest, Inversed)
 {
-    ASSERT_TRUE((bool)(Matrix<double, 1, 1>({100}).get_inversed() == Matrix<double, 1>({0.01})));
+    ASSERT_TRUE((bool)(Matrix<double, 1, 1>({100}).get_inversed() == Matrix<double, 1, 1>({0.01})));
     ASSERT_TRUE((bool)(Matrix<double, 2, 2>({1, 2, 3, 4}).get_inversed() == Matrix<double, 2, 2>({-2, 1, 1.5, -0.5})));
     ASSERT_TRUE((bool)(Matrix<double, 3, 3>({1, 1, 4, 1, 2, 4, 1, 2, 2}).get_inversed() == Matrix<double, 3, 3>({2, -3, 2, -1, 1, 0, 0, 0.5, -0.5})));
 
-    Matrix<double, 1, 1>({100}).get_diag<1>();
+    Matrix<double, 1, 1>({100}).get_diag();
 }
 
 int main(int argc, char *argv[])
