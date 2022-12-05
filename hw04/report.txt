@@ -1,0 +1,157 @@
+Step 7/10 : RUN ./scripts/build.sh
+ ---> Running in 0c51789371f1
+-- The C compiler identification is GNU 11.3.0
+-- The CXX compiler identification is GNU 11.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found GTest: /usr/local/lib/cmake/GTest/GTestConfig.cmake (found version "1.11.0")  
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /hw04/build
+[ 20%] Building CXX object analyser/CMakeFiles/sequential_analyser.dir/sequential_analyser.cpp.o
+[ 40%] Building CXX object analyser/CMakeFiles/sequential_analyser.dir/utils.cpp.o
+[ 60%] Linking CXX static library libsequential_analyser.a
+[ 60%] Built target sequential_analyser
+[ 80%] Building CXX object tests/CMakeFiles/tests.dir/tests.cpp.o
+[100%] Linking CXX executable tests
+[100%] Built target tests
+Removing intermediate container 0c51789371f1
+ ---> 1201a2ec7c4c
+Step 8/10 : RUN ./scripts/run_tests.sh
+ ---> Running in 0cd0fe77ab6f
+Test project /hw04/build/tests
+    Start 1: unit_test.count_substring_entries
+1/2 Test #1: unit_test.count_substring_entries ...   Passed    0.00 sec
+    Start 2: unit_test.get_count_good_and_bad
+2/2 Test #2: unit_test.get_count_good_and_bad ....   Passed    2.13 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   2.13 sec
+Test project /hw04/build/tests
+    Start 1: unit_test.count_substring_entries
+1/2 Test #1: unit_test.count_substring_entries ...   Passed    0.00 sec
+    Start 2: unit_test.get_count_good_and_bad
+2/2 Test #2: unit_test.get_count_good_and_bad ....   Passed    2.09 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   2.10 sec
+Test project /hw04/build/tests
+    Start 1: unit_test.count_substring_entries
+1/2 Test #1: unit_test.count_substring_entries ...   Passed    0.01 sec
+    Start 2: unit_test.get_count_good_and_bad
+2/2 Test #2: unit_test.get_count_good_and_bad ....   Passed    2.24 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   2.25 sec
+Test project /hw04/build/tests
+    Start 1: unit_test.count_substring_entries
+1/2 Test #1: unit_test.count_substring_entries ...   Passed    0.00 sec
+    Start 2: unit_test.get_count_good_and_bad
+2/2 Test #2: unit_test.get_count_good_and_bad ....   Passed    2.12 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   2.12 sec
+Test project /hw04/build/tests
+    Start 1: unit_test.count_substring_entries
+1/2 Test #1: unit_test.count_substring_entries ...   Passed    0.00 sec
+    Start 2: unit_test.get_count_good_and_bad
+2/2 Test #2: unit_test.get_count_good_and_bad ....   Passed    2.10 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   2.10 sec
+average time: 2150 milliseconds
+Removing intermediate container 0cd0fe77ab6f
+ ---> 1ebc2a48bf33
+Step 9/10 : RUN ./scripts/build.sh -p
+ ---> Running in f8417d025a04
+-- The C compiler identification is GNU 11.3.0
+-- The CXX compiler identification is GNU 11.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found suitable version "1.74.0", minimum required is "1.64.0") found components: filesystem 
+-- Found GTest: /usr/local/lib/cmake/GTest/GTestConfig.cmake (found version "1.11.0")  
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /hw04/build
+[ 12%] Building CXX object analyser/CMakeFiles/counter.dir/counter.cpp.o
+[ 25%] Building CXX object analyser/CMakeFiles/counter.dir/utils.cpp.o
+[ 37%] Linking CXX executable counter
+[ 37%] Built target counter
+[ 50%] Building CXX object analyser/CMakeFiles/parallel_analyser.dir/parallel_analyser.cpp.o
+[ 62%] Building CXX object analyser/CMakeFiles/parallel_analyser.dir/utils.cpp.o
+[ 75%] Linking CXX shared library libparallel_analyser.so
+[ 75%] Built target parallel_analyser
+[ 87%] Building CXX object tests/CMakeFiles/tests.dir/tests.cpp.o
+[100%] Linking CXX executable tests
+[100%] Built target tests
+Removing intermediate container f8417d025a04
+ ---> 66b71cbfdbcc
+Step 10/10 : RUN ./scripts/run_tests.sh
+ ---> Running in 7cd2681669d6
+Test project /hw04/build/tests
+    Start 1: unit_test.count_substring_entries
+1/2 Test #1: unit_test.count_substring_entries ...   Passed    0.00 sec
+    Start 2: unit_test.get_count_good_and_bad
+2/2 Test #2: unit_test.get_count_good_and_bad ....   Passed    1.28 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   1.28 sec
+Test project /hw04/build/tests
+    Start 1: unit_test.count_substring_entries
+1/2 Test #1: unit_test.count_substring_entries ...   Passed    0.00 sec
+    Start 2: unit_test.get_count_good_and_bad
+2/2 Test #2: unit_test.get_count_good_and_bad ....   Passed    1.29 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   1.30 sec
+Test project /hw04/build/tests
+    Start 1: unit_test.count_substring_entries
+1/2 Test #1: unit_test.count_substring_entries ...   Passed    0.00 sec
+    Start 2: unit_test.get_count_good_and_bad
+2/2 Test #2: unit_test.get_count_good_and_bad ....   Passed    1.26 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   1.27 sec
+Test project /hw04/build/tests
+    Start 1: unit_test.count_substring_entries
+1/2 Test #1: unit_test.count_substring_entries ...   Passed    0.00 sec
+    Start 2: unit_test.get_count_good_and_bad
+2/2 Test #2: unit_test.get_count_good_and_bad ....   Passed    1.22 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   1.22 sec
+Test project /hw04/build/tests
+    Start 1: unit_test.count_substring_entries
+1/2 Test #1: unit_test.count_substring_entries ...   Passed    0.00 sec
+    Start 2: unit_test.get_count_good_and_bad
+2/2 Test #2: unit_test.get_count_good_and_bad ....   Passed    1.38 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   1.39 sec
+average time: 1300 milliseconds
