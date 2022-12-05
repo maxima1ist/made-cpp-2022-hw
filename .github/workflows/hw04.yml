@@ -1,0 +1,14 @@
+name: hw04
+
+on:
+  push:
+    branches:
+      - hw04
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build and test hw04
+      run: ./hw04/scripts/build_image.sh
